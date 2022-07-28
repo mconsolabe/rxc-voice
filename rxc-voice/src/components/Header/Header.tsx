@@ -19,7 +19,7 @@ import {
   ListItemText,
   Button,
 } from "@material-ui/core";
-
+import Account from "../Account";
 import { AccountCircleRounded } from "@material-ui/icons";
 
 
@@ -145,17 +145,7 @@ function Header() {
               HELP
               </Button>
 
-              <IconButton component={Link} to="/account"
-              style={{ width: 50,
-                height: 20,}}
-              
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                color="inherit"
-              >
-                <AccountCircleRounded />
-              </IconButton>
+              {<Account />}
               
             
           </Toolbar>

@@ -7,10 +7,90 @@ import { User } from "../../models/User";
 import { WebService } from "../../services";
 import { getUserData, validateEmail } from "../../utils";
 import ProfileIcon from "../ProcessPage/components/DelegationPage/components/ProfileIcon";
-
+import { Avatar, Button, Drawer, makeStyles } from "@material-ui/core";
 import "./Account.scss";
+import { DeleteOutline, Public } from "@material-ui/icons";
 
+const useStyles = makeStyles({
+  container: {
+    width: 350,
+    padding: 25,
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    fontFamily: "monospace",
+  },
+  profile: {
+    flex: 1,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: "20px",
+    height: "92%",
+  },
+  logout: {
+    height: "8%",
+    width: "100%",
+    backgroundColor: "#f4fc00",
+    marginTop: 20,
+  },
+  picture: {
+    width: 200,
+    height: 200,
+    cursor: "pointer",
+    backgroundColor: "#080808",
+    objectFit: "contain",
+  },
+  watchlist: {
+    flex: 1,
+    width: "100%",
+    backgroundColor: "grey",
+    borderRadius: 10,
+    padding: 15,
+    paddingTop: 10,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: 12,
+    overflowY: "scroll",
+  },
+  coin: {
+    padding: 10,
+    borderRadius: 5,
+    color: "black",
+    width: "100%",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#f4fc00",
+    boxShadow: "0 0 3px black",
+  },
+});
+
+type Anchor = 'top' | 'left' | 'bottom' | 'right';
 function Account() {
+
+  const classes = useStyles();
+  const [state, setState] = React.useState({
+    left: false,
+  });
+
+
+
+
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+
+    setState({ ...state, [anchor]: open });
+  };
+
+
+
   // const github_client_id = 'f9be73dc7af4857809e0';
   const { logoutUser, setUserData } = useContext(ActionContext);
   const user: User | undefined = getUserData();
@@ -102,84 +182,51 @@ function Account() {
   };
 
   return (
-    <div className="account">
-      <h1 className="title">Account</h1>
-      {user ? (
-        <div className="delegate-card" key={user.id}>
-          <ProfileIcon />
-          {editMode ? (
-            <form className="edit-account" onSubmit={(e) => modify(e, user)}>
-              <input
-                type="text"
-                placeholder="First Name"
-                className="login-input"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-              />
-
-              <input
-                type="text"
-                placeholder="Last Name"
-                className="login-input"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-              />
-              <input
-                type="text"
-                placeholder="Email"
-                className="login-input"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <div className="buttons">
-                <button
-                  type="button"
-                  className="account-button"
-                  onClick={() => cancelEdit()}
-                  >
-                  cancel
-                </button>
-
-                <button
-                  type="submit"
-                  className="submit-button"
-                  >
-                  save changes
-                </button>
-              </div>
-
-            </form>
-          ) : (
-          <div className="info">
-            <h3 className="name">{firstName + " " + lastName}</h3>
-            <h3 className="email">{email}</h3>
-          </div>
-        )}
-        </div>
-      ) : (
-        <h2>User not logged in.</h2>
-      )}
-      <div className="option-buttons">
-        <button
-          type="button"
-          className="account-button"
-          onClick={() => logoutUser()}
+    
+    <div>
+      {["left"].map((anchor) => (
+        <React.Fragment key={anchor}>
+          <Avatar
+            onClick={toggleDrawer(anchor, true)}
+            style={{
+              height: 38,
+              width: 38,
+              marginLeft: 15,
+              cursor: "pointer",
+              backgroundColor: "#080808",
+            }}
+           
+          />
+          <Drawer
+            
+            open={state[anchor]}
+            onClose={toggleDrawer(anchor, false)}
           >
-          log out
-        </button>
-        {editMode ? (
-          <>
-          </>
-        ) : (
-          <button
+            <div className={classes.container}>
+              <div className={classes.profile}>
+                <Avatar
+                  className={classes.picture}
+               
+                />   
+              </div>
+              <button
             type="button"
             className="account-button"
             onClick={() => setEditMode(true)}
             >
             edit account
           </button>
-        )}
-      </div>
+          <button
+          type="button"
+          className="account-button"
+          onClick={() => logoutUser()}
+          >
+          log out
+        </button>
+            </div>
+          </Drawer>
+        </React.Fragment>
+      ))}
     </div>
   );
 }
