@@ -9,7 +9,7 @@
 }
 
 .App {
-  text-align: center;
+  
   font-family: var(--secondaryFont);
   padding: 4.5vmin;
   min-height: 100vh;
@@ -148,3 +148,17 @@ ol li:before {
     font-style: normal;
 
 }
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+

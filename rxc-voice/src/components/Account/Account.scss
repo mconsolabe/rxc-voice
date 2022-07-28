@@ -1,5 +1,6 @@
 .account {
   text-align: center;
+  margin-top: 5vw;
 
   .title {
     font-size: 1.5em;
@@ -27,7 +28,7 @@
     text-align: left;
 
     .login-input {
-      text-align: left;
+      text-align: center;
       display: block;
       width: 90%;
       margin-bottom: 2vh;
@@ -56,7 +57,7 @@
     .buttons {
       text-align: right;
       width: 90%;
-      margin-top: 2rem;
+      margin-top: 1rem;
 
       .submit-button {
         display: inline-block;

@@ -6,6 +6,9 @@
     "node": "15.x"
   },
   "dependencies": {
+    "@material-ui/core": "^4.12.4",
+    "@material-ui/icons": "^4.11.3",
+    "@material-ui/lab": "^4.0.0-alpha.61",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "@types/react": "^16.9.54",
@@ -30,7 +33,7 @@
     "xlsx": "^0.17.0"
   },
   "scripts": {
-    "start": "PORT=4000 react-scripts start",
+    "start": "set PORT=4000 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
