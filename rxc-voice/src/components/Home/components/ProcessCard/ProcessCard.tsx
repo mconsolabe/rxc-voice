@@ -20,7 +20,14 @@ function ProcessCard(props: any) {
         `/${props.process.id}/${slugify(props.process.title)}}`
       )}
       >
-        <h2 className="title">{props.process.title}</h2>
+        <h2 className="title">
+          
+         
+         {props.process.title}
+          
+          
+          
+          </h2>
         <p>{props.process.description}</p>
         <p className="time-remaining">
           {(props.active ? "Closes " : "Closed ") + moment(props.process.end_date, "YYYY-MM-DDTHH:mm:ssZ").fromNow()}

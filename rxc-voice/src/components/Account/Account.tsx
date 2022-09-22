@@ -6,7 +6,6 @@ import { User } from "../../models/User";
 // import { VerificationMethod } from "../../models/VerificationMethod";
 import { WebService } from "../../services";
 import { getUserData, validateEmail } from "../../utils";
-import ProfileIcon from "../ProcessPage/components/DelegationPage/components/ProfileIcon";
 import { Avatar, Button, Drawer, makeStyles } from "@material-ui/core";
 import "./Account.scss";
 import { DeleteOutline, Public } from "@material-ui/icons";
@@ -53,6 +52,7 @@ const useStyles = makeStyles({
     alignItems: "center",
     gap: 12,
     overflowY: "scroll",
+    marginBottom: 250
   },
   coin: {
     padding: 10,
@@ -194,36 +194,133 @@ function Account() {
               marginLeft: 15,
               cursor: "pointer",
               backgroundColor: "#080808",
+              color: "#f4fc00",
             }}
            
           />
           <Drawer
-            
+          
             open={state[anchor]}
             onClose={toggleDrawer(anchor, false)}
           >
             <div className={classes.container}>
               <div className={classes.profile}>
-                <Avatar
+                <Avatar style={{
+             
+              cursor: "pointer",
+              backgroundColor: "#080808",
+           
+            }}
                   className={classes.picture}
+                  
+                  alt={firstName|| lastName}
                
                 />   
               </div>
+              <span
+                  style={{
+                    fontFamily: "Bungee",
+                    width: "100%",
+                    fontSize: 25,
+                    textAlign: "center",
+                    fontWeight: "bolder",
+                    wordWrap: "break-word",
+                    marginBottom: 10,
+                  }}
+                >
+                  {firstName +" "+ lastName}
+                </span>
+
+                <div className={classes.watchlist}>
+                  <span
+                    style={{
+                      fontFamily: "Bungee",
+                      fontSize: 15,
+                      textShadow: "0 0 10px #FFFF00",
+                    }}
+                  >
+                    Groups:
+                  </span>
+
+                    </div>
+              {user ? (
+        <div className="delegate-card" key={user.id}>
+         
+          {editMode ? (
+              
+              <form  className="edit-account" onSubmit={(e) => modify(e, user)}>
+              <input
+                type="text"
+                placeholder="First Name"
+                className="login-input"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+              />
+
+              <input
+                type="text"
+                placeholder="Last Name"
+                className="login-input"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="Email"
+                className="login-input"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <div className="buttons">
+                <button
+                  type="button"
+                  className="account-button"
+                  onClick={() => cancelEdit()}
+                  >
+                  cancel
+                </button>
+
+                <button
+                  type="submit"
+                  className="submit-button"
+                  >
+                  save changes
+                </button>
+              </div>
+
+            </form>
+                 ) : (
+                  <div  className="info">
+               
+                </div>
+              )}
+              </div>
+            ) : (
+              <h2>User not logged in.</h2>
+            )}
+            <div className="option-buttons">
               <button
-            type="button"
-            className="account-button"
-            onClick={() => setEditMode(true)}
-            >
-            edit account
-          </button>
-          <button
-          type="button"
-          className="account-button"
-          onClick={() => logoutUser()}
-          >
-          log out
-        </button>
+                type="button"
+                className="account-button"
+                onClick={() => logoutUser()}
+                >
+                log out
+              </button>
+              {editMode ? (
+                <>
+                </>
+              ) : (
+                <button
+                  type="button"
+                  className="account-button"
+                  onClick={() => setEditMode(true)}
+                  >
+                  edit account
+                </button>
+              )}
             </div>
+          </div>
+        
           </Drawer>
         </React.Fragment>
       ))}
