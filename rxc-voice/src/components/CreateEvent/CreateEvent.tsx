@@ -12,6 +12,7 @@ import DelegationSettings from "./components/DelegationSettings";
 import DeliberationSettings from "./components/DeliberationSettings";
 import ElectionSettings from "./components/ElectionSettings";
 
+
 import "./CreateEvent.scss";
 
 export interface Change {
