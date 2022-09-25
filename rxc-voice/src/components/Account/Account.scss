@@ -21,11 +21,11 @@
     text-decoration: underline;
   }
   .info {
-    text-align: left;
+    text-align: center;
   }
   .edit-account {
     // padding: 4.5vmin;
-    text-align: left;
+    text-align: center;
 
     .login-input {
       text-align: center;
@@ -43,7 +43,7 @@
     .oauth-message {
       font-size: 1rem;
       margin: 8vmin auto 0 auto;
-      text-align: left;
+      text-align: center;
     }
 
     .oauth-provider {
@@ -90,7 +90,7 @@
     }
   }
   .option-buttons {
-    text-align: left;
+    text-align: center;
     margin-top: 50px;
     display: flex;
     justify-content: space-between;
@@ -100,7 +100,7 @@
 
 @media only screen and (min-width: 768px) {
   .account {
-    text-align: left;
+    text-align: center;
 
     .title {
       font-size: 2em;

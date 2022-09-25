@@ -59,6 +59,7 @@ function ProcessCard(props: any) {
         fontFamily: "suisse_intlbook_italic",
       }}
       >
+<<<<<<< HEAD
         <CardHeader
           className="title"
           action={
@@ -150,6 +151,17 @@ function ProcessCard(props: any) {
         
         }
         </p>
+=======
+        <h2 className="title">
+          
+         
+         {props.process.title}
+          
+          
+          
+          </h2>
+        <p>{props.process.description}</p>
+>>>>>>> 0d0f58c9ec9411d1684605206e6e2e2d33950716
         <p className="time-remaining">
           {(props.active ? "Closes " : "Closed ") + moment(props.process.end_date, "YYYY-MM-DDTHH:mm:ssZ").fromNow()}
         </p>

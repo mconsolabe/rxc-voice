@@ -21,6 +21,7 @@ import Help from './components/Help';
 import { User } from './models/User';
 import { getUserData } from './utils';
 
+
 import './App.scss';
 
 function App() {
@@ -35,9 +36,11 @@ function App() {
             <>
               <Header />
               <Home />
+              
             </>
           ) : (
             <LandingPage />
+            
           )}
         </Route>
 

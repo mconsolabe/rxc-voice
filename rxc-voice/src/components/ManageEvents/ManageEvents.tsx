@@ -47,7 +47,7 @@ function ManageEvents() {
                   user.processes_managed.includes(process.id)
                 ))
                 .map((process: Process) => (
-                <ProcessCard key={process.id} process={process} active={false} />
+                <ProcessCard key={process.id} process={process} active={true} />
               ))}
             </ul>
           ) : null}
