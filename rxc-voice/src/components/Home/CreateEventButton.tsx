@@ -7,7 +7,6 @@ export default function CreateEventButton() {
     <Stack spacing={2} direction="column">
       <Button variant="contained" 
         onClick={() => {
-          //alert('Event created');
           window.location.href="/create-event";
         }}
         style={{

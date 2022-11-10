@@ -25,6 +25,8 @@ import HowToVoteIcon from '@mui/icons-material/HowToVote';
 
 import "./ProcessCard.scss";
 import ExampleEventCardA from "../../ExampleEventCardA";
+import DelegateCard from "../../../ProcessPage/components/DelegationPage/components/DelegateCard";
+import { NewLineKind } from "typescript";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -49,9 +51,11 @@ function ProcessCard(props: any) {
     setExpanded(!expanded);
   };
 
+  const [hidden, setHidden] = React.useState(false);
+  
   return (
     <li className="process-card" key={props.process.id}>
-      <Card 
+      {!hidden ? <Card 
       sx={{ maxWidth: 345 }}
       style={{
         color: "yellow",
@@ -59,14 +63,15 @@ function ProcessCard(props: any) {
         fontFamily: "suisse_intlbook_italic",
       }}
       >
-<<<<<<< HEAD
         <CardHeader
           className="title"
+          /*
           action={
             <IconButton aria-label="settings">
               <MoreVertIcon />
             </IconButton>
           }
+          */
           style={{
               color: "yellow",
               backgroundColor: "black",
@@ -80,7 +85,10 @@ function ProcessCard(props: any) {
                   fontFamily: "suisse_intlbook_italic",
               }}
               >
-            
+                <p className="time-remaining">
+                  {(props.active ? "Closes " : "Closed ") + moment(props.process.end_date, "YYYY-MM-DDTHH:mm:ssZ").fromNow()}
+                </p>
+                <p>{moment(props.process.end_date, "YYYY-MM-DDTHH:mm:ssZ").format("MMMM Do YYYY")}</p>
               </Typography>
           }
         />
@@ -96,48 +104,53 @@ function ProcessCard(props: any) {
           >
             
           </Typography>
-          <IconButton 
-            aria-label="add to favorites"
+          <CardActions>
+            <IconButton 
+              aria-label="add to favorites"
+              style={{
+                color: "yellow"
+              }}
+              onClick={() => 
+                setHidden(s => !s)
+              }
+            >
+              <DeleteIcon />
+            </IconButton>
+            <IconButton 
+              aria-label="add to favorites"
+              style={{
+                color: "yellow"
+              }}
+            >
+              <BarChartIcon />
+            </IconButton>
+            <ExpandMore
+            expand={expanded}
+            onClick={handleExpandClick}
+            aria-expanded={expanded}
+            aria-label="show more"
             style={{
               color: "yellow"
             }}
-          >
-            <DeleteIcon />
-          </IconButton>
-          <IconButton 
-            aria-label="add to favorites"
-            style={{
-              color: "yellow"
-            }}
-          >
-            <BarChartIcon />
-          </IconButton>
-          <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-          style={{
-            color: "yellow"
-          }}
-          >
-            <ExpandMoreIcon />
-          </ExpandMore>
-          <IconButton 
-            aria-label="add to favorites"
-            style={{
-              color: "yellow"
-            }}
-            onClick={() => {
-              //alert('Event created');
-              window.location.href="/manage-events/"+ props.process.id + "/" + slugify(props.process.title);
-            }}
-          >
-            <HowToVoteIcon />
-          </IconButton>
+            >
+              <ExpandMoreIcon />
+            </ExpandMore>
+            <IconButton 
+              aria-label="add to favorites"
+              style={{
+                color: "yellow"
+              }}
+              onClick={() => {
+                window.location.href="/manage-events/"+ props.process.id + "/" + slugify(props.process.title);
+              }}
+            >
+              <HowToVoteIcon />
+            </IconButton>
+          </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph
+            sx={{ maxWidth: 345 }}
             style={{
               color: "yellow",
               fontFamily: "suisse_intlbook_italic",
@@ -151,23 +164,28 @@ function ProcessCard(props: any) {
         
         }
         </p>
-=======
-        <h2 className="title">
-          
-         
-         {props.process.title}
-          
-          
-          
-          </h2>
-        <p>{props.process.description}</p>
->>>>>>> 0d0f58c9ec9411d1684605206e6e2e2d33950716
-        <p className="time-remaining">
-          {(props.active ? "Closes " : "Closed ") + moment(props.process.end_date, "YYYY-MM-DDTHH:mm:ssZ").fromNow()}
-        </p>
-      </Card>
+      </Card> : null}
     </li>
   );
 }
 
 export default ProcessCard;
+
+
+
+function deleteMUICard(props : any) {
+  var x = document.getElementById(props.process.id);
+  if(x != null ) {
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } 
+    else {
+      x.style.display = "none";
+    }
+  }
+}
+
+function onRemoveExpense(id: any) {
+  throw new Error("Function not implemented.");
+}
+

@@ -7,8 +7,8 @@ export default function CreateGroupButton() {
     <Stack spacing={2} direction="column">
       <Button variant="contained"
         onClick={() => {
-          alert('Group form');
-          //window.location.href="/create-event";
+          //alert('Group form');
+          window.location.href="/create-group";
         }}
         style={{
           color: "yellow",

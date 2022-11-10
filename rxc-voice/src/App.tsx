@@ -4,6 +4,7 @@ import { StateContext } from './hooks';
 import "react-datetime/css/react-datetime.css";
 import Home from "./components/Home";
 import CreateEvent from "./components/CreateEvent";
+import CreateGroup from "./components/CreateGroup";
 import Header from './components/Header';
 import Login from './components/Login';
 import Account from './components/Account';
@@ -81,6 +82,11 @@ function App() {
         <Route path="/create-event" exact>
           <Header />
           <CreateEvent />
+        </Route>
+
+        <Route path="/create-group" exact>
+          <Header />
+          <CreateGroup />
         </Route>
 
         <Route path="/manage-events" exact>
