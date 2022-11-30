@@ -22,6 +22,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Grid from '@mui/material/Grid';
 import ButtonBase from '@mui/material/ButtonBase';
 import HowToVoteIcon from '@mui/icons-material/HowToVote';
+import { Button } from '@mui/material';
 
 import "./ProcessCard.scss";
 import ExampleEventCardA from "../../ExampleEventCardA";
@@ -51,8 +52,14 @@ function ProcessCard(props: any) {
     setExpanded(!expanded);
   };
 
-  const [hidden, setHidden] = React.useState(false);
-  
+  const [hidden, setHidden] = React.useState(localStorage.getItem('hidden') === 'false');
+  React.useEffect(() => {
+    localStorage.setItem('hidden', String(hidden));
+  }, [hidden]);
+  const handleDeleteClick = () => {
+    setHidden(!hidden);
+  }
+
   return (
     <li className="process-card" key={props.process.id}>
       {!hidden ? <Card 
@@ -85,10 +92,25 @@ function ProcessCard(props: any) {
                   fontFamily: "suisse_intlbook_italic",
               }}
               >
-                <p className="time-remaining">
+                <Button 
+                  variant="contained"
+                  sx={{
+                    color: "yellow",
+                    backgroundColor: "black",
+                    fontFamily: "suisse_intlbook_italic",
+                  }}
+                  style={{
+                    color: "yellow"
+                  }}
+                  onClick={() => nextCall()}
+                >
+                  Switch Date Format
+                </Button>
+                <p className="time-remaining" id="p01">
                   {(props.active ? "Closes " : "Closed ") + moment(props.process.end_date, "YYYY-MM-DDTHH:mm:ssZ").fromNow()}
                 </p>
-                <p>{moment(props.process.end_date, "YYYY-MM-DDTHH:mm:ssZ").format("MMMM Do YYYY")}</p>
+                <p id="p02">{moment(props.process.end_date, "YYYY-MM-DDTHH:mm:ssZ").format("MMMM Do YYYY")}</p>
+                
               </Typography>
           }
         />
@@ -110,9 +132,7 @@ function ProcessCard(props: any) {
               style={{
                 color: "yellow"
               }}
-              onClick={() => 
-                setHidden(s => !s)
-              }
+              onClick={handleDeleteClick}
             >
               <DeleteIcon />
             </IconButton>
@@ -120,6 +140,9 @@ function ProcessCard(props: any) {
               aria-label="add to favorites"
               style={{
                 color: "yellow"
+              }}
+              onClick={() => {
+                window.location.href="/chart";
               }}
             >
               <BarChartIcon />
@@ -135,17 +158,22 @@ function ProcessCard(props: any) {
             >
               <ExpandMoreIcon />
             </ExpandMore>
-            <IconButton 
-              aria-label="add to favorites"
-              style={{
-                color: "yellow"
-              }}
-              onClick={() => {
-                window.location.href="/manage-events/"+ props.process.id + "/" + slugify(props.process.title);
-              }}
+            <Link
+              to={currentStage ? (
+                `/${props.process.id}/${slugify(props.process.title)}/${currentStage.position}/${slugify(currentStage.title)}`
+              ) : (
+                `/${props.process.id}/${slugify(props.process.title)}}`
+              )}
             >
-              <HowToVoteIcon />
-            </IconButton>
+              <IconButton 
+                aria-label="add to favorites"
+                style={{
+                  color: "yellow"
+                }}
+              >
+                <HowToVoteIcon />
+              </IconButton>
+            </Link>
           </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
@@ -189,3 +217,17 @@ function onRemoveExpense(id: any) {
   throw new Error("Function not implemented.");
 }
 
+function nextCall() {
+  var x = document.getElementById("p01");
+  var y = document.getElementById("p02")
+  if(x != null && y != null) {
+    if (x.style.display === "none") {
+      x.style.display = "block";
+      y.style.display = "none";
+    } 
+    else {
+      x.style.display = "none";
+      y.style.display = "block";
+    }
+  }
+}

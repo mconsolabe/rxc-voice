@@ -95,13 +95,51 @@ function Home() {
             Active Events
           </div>
         </ToggleButton>
-    </ToggleButtonGroup>
-    <div>&nbsp;</div>
-    <div>&nbsp;</div>
+      </ToggleButtonGroup>
+      <div>&nbsp;</div>
+      <div>&nbsp;</div>
 
     
       <h2 id="Closing Events">
         <u>Events Closing Today</u>
+        <div>&nbsp;</div>
+        <ToggleButtonGroup
+        //value={formats}
+        //onChange={handleFormat}
+        aria-label="text formatting"
+        color="secondary"
+        >
+          <ToggleButton value="underlined" aria-label="underlined"
+            onClick={() => {
+              display1day()
+            }}
+          >
+            <div>
+              <KeyboardDoubleArrowLeftIcon style={{ color: "black" }}/>
+              Within 1 day
+            </div>
+          </ToggleButton>
+          <ToggleButton value="bold" aria-label="bold"
+            onClick={() => {
+              display3days()
+            }}
+          >
+            <div>
+              <CalendarMonthIcon style={{ color: "black" }} />
+              Within 3 days
+            </div>
+          </ToggleButton>
+          <ToggleButton value="italic" aria-label="italic"
+            onClick={() => {
+              display1week()
+            }}
+          >
+            <div>
+              <KeyboardDoubleArrowRightIcon style={{ color: "black" }}/>
+              Within 1 week
+            </div>
+          </ToggleButton>
+        </ToggleButtonGroup>
       
       {/* (moment({hours: 0}).diff(props.process.end_date, 'days') >= -1) ? true : false; */}
       {
@@ -144,7 +182,7 @@ function Home() {
       }
       {activeProcesses?.length ? (
         <ul className="process-list">
-            <table className="styled-table">
+            <table className="styled-table" id="styled-table-1">
               <thead>
                 <tr>
                     <th>Event Title</th>
@@ -156,6 +194,38 @@ function Home() {
                 <tr className="active-row">
                     {((moment({hours: 0}).diff(process.end_date, 'days') >= -1) ? <td>{process.title}</td>  : false )}
                     {((moment({hours: 0}).diff(process.end_date, 'days') >= -1) ? <td>{"Closes " + moment(process.end_date, "YYYY-MM-DDTHH:mm:ssZ").fromNow()}</td>  : false )}
+                </tr>
+              ))}
+              </tbody>
+            </table>
+            <table className="styled-table" id="styled-table-3">
+              <thead>
+                <tr>
+                    <th>Event Title</th>
+                    <th>Time Until Closing</th>
+                </tr>
+              </thead>
+              <tbody>
+              {activeProcesses.map((process: Process) => (
+                <tr className="active-row">
+                    {((moment({hours: 0}).diff(process.end_date, 'days') >= -3) ? <td>{process.title}</td>  : false )}
+                    {((moment({hours: 0}).diff(process.end_date, 'days') >= -3) ? <td>{"Closes " + moment(process.end_date, "YYYY-MM-DDTHH:mm:ssZ").fromNow()}</td>  : false )}
+                </tr>
+              ))}
+              </tbody>
+            </table>
+            <table className="styled-table" id="styled-table-7">
+              <thead>
+                <tr>
+                    <th>Event Title</th>
+                    <th>Time Until Closing</th>
+                </tr>
+              </thead>
+              <tbody>
+              {activeProcesses.map((process: Process) => (
+                <tr className="active-row">
+                    {((moment({hours: 0}).diff(process.end_date, 'days') >= -7) ? <td>{process.title}</td>  : false )}
+                    {((moment({hours: 0}).diff(process.end_date, 'days') >= -7) ? <td>{"Closes " + moment(process.end_date, "YYYY-MM-DDTHH:mm:ssZ").fromNow()}</td>  : false )}
                 </tr>
               ))}
               </tbody>
@@ -260,6 +330,42 @@ function displayClosingEvents() {
 
 function displayActiveEvents() {
   var x = document.getElementById("Active Events");
+  if(x != null ) {
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } 
+    else {
+      x.style.display = "none";
+    }
+  }
+}
+
+function display1day() {
+  var x = document.getElementById("styled-table-1");
+  if(x != null ) {
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } 
+    else {
+      x.style.display = "none";
+    }
+  }
+}
+
+function display3days() {
+  var x = document.getElementById("styled-table-3");
+  if(x != null ) {
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } 
+    else {
+      x.style.display = "none";
+    }
+  }
+}
+
+function display1week() {
+  var x = document.getElementById("styled-table-7");
   if(x != null ) {
     if (x.style.display === "none") {
       x.style.display = "block";

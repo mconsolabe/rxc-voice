@@ -42,6 +42,8 @@ function ProcessPage() {
     }
   };
 
+  console.log(delegate);
+  
   return (
     <>
     {!loading ? (
