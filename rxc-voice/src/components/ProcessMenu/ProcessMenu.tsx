@@ -17,7 +17,12 @@ function ProcessMenu(props: {process: Process}) {
         .map((stage: Stage) => (
           <Link
           key={stage.position}
-          to={`/${props.process.id}/${slugify(props.process.title)}/${stage.position}/${slugify(stage.title)}`}
+          to={{pathname: `/${props.process.id}/${slugify(props.process.title)}/${stage.position}/${slugify(stage.title)}`,
+              state:{
+                ratification:false,
+                
+              }}}
+          
           className="nav-stage"
           >
           {(+stage.position+1) + ". " + stage.title}

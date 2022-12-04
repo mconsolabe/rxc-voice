@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext, createContext, useRef } from "react";
 import DelegateCard from "./components/DelegateCard";
 import { Delegate } from "../../../../models/Delegate";
 import moment from "moment";
@@ -8,16 +8,37 @@ import TransferCard from "./components/TransferCard";
 import TransferModal from "./components/TransferModal";
 import { Delegation, MatchPoolMode } from "../../../../models/Stage";
 import { Process } from "../../../../models/Process";
-
+import { Stage } from "../../../../models/Stage";
 import "./DelegationPage.scss";
+import ElectionPage from "../ElectionPage";
+import ProcessMenu from "../../../ProcessMenu";
+import ProcessPage from "../../ProcessPage";
+import { Redirect, useLocation } from "react-router";
+import slugify from "react-slugify";
+
+
 
 function DelegationPage(props: {process: Process, delegation: Delegation, userDelegate: Delegate}) {
+    
   const [transfers, setTransfers] = useState(new Array<Transfer>());
   const [subtotal, setSubtotal] = useState(0);
   const [match, setMatch] = useState(0);
   const [stagedTransfer, setStagedTransfer] = useState<Delegate | undefined>(undefined);
   const [inviteModal, setInviteModal] = useState(false);
   const delegationOngoing = moment() < moment(props.delegation.end_date);
+  const mounted = useRef(false)
+
+  type LocationState = { ratification: Boolean | undefined, currentStage: Stage | undefined; };
+  const location = useLocation(); 
+  const {ratification} =location.state as LocationState
+  const {currentStage} = location.state as LocationState
+  useEffect(() => {
+    mounted.current = true;
+
+    return () => {
+        mounted.current = false;
+    };
+}, []);
 
   useEffect(() => {
     if (!delegationOngoing && props.delegation.allow_transfers) {
@@ -49,7 +70,7 @@ function DelegationPage(props: {process: Process, delegation: Delegation, userDe
     setStagedTransfer(undefined);
     setInviteModal(false);
   };
-
+  
   const calcSubtotal = (transferData: Transfer[]) => {
     var subtotal = 0;
     transferData.forEach((transfer: Transfer) => {
@@ -61,9 +82,9 @@ function DelegationPage(props: {process: Process, delegation: Delegation, userDe
     });
     return subtotal;
   };
-
   return (
     <div className="delegation-content">
+
       <TransferModal
         invite={inviteModal}
         recipient={stagedTransfer}
@@ -167,8 +188,22 @@ function DelegationPage(props: {process: Process, delegation: Delegation, userDe
       ) : (
         <h3>No delegates found.</h3>
       )}
+      <div>
+      {transfers && mounted.current && ratification?(
+        
+           <Redirect to={{
+              pathname: `/${props.process.id}/${slugify(props.process.title)}/${currentStage?.position}/${slugify(currentStage?.title)}`,
+              state:{
+                ratification: true,
+                transfer: transfers 
+              }
+        }}/>
+    
+      ): null}
+      </div>
     </div>
   );
+  
 }
 
 export default DelegationPage;

@@ -24,6 +24,7 @@ import { getUserData } from './utils';
 
 
 import './App.scss';
+import DoughnutChart from './components/Charts/charts';
 
 function App() {
   const { color } = useContext(StateContext);
@@ -114,6 +115,9 @@ function App() {
           <Help />
         </Route>
 
+        <Route path="/chart" exact
+        render={() => <DoughnutChart />}/>
+        
         <Route path="/about" exact>
           <Header />
           <About />

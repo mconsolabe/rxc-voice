@@ -15,11 +15,16 @@ import { User } from "../../../../models/User";
 import { Delegate } from "../../../../models/Delegate";
 import { ActionContext } from "../../../../hooks";
 import { ResultData } from "../../../../models/ResultData";
-
+import { Transfer } from "../../../../models/Transfer";
+import DoughnutChart from "../../../Charts/charts";
 import "./ElectionPage.scss";
-
+import { Link, Redirect, Route, useHistory, useLocation } from "react-router-dom";
+import Home from "../../../Home";
 function ElectionPage(props: {process: Process, election: Election, userDelegate: Delegate}) {
-
+  type LocationState = { ratification: Boolean | undefined, transfer: Transfer[]};
+    const location = useLocation(); 
+    const{ ratification } = location.state as LocationState; 
+    const {transfer} = location.state as LocationState
   const [votesCast, setVotesCast] = useState(0);
 
   function proposalReducer(proposals: any[], change: any) {
@@ -37,7 +42,7 @@ function ElectionPage(props: {process: Process, election: Election, userDelegate
       return proposals;
     }
   };
-
+  const [state, setState] = useState({});
   const { selectProcess, setUserData } = useContext(ActionContext);
   const [creditsSpent, setCreditsSpent] = useState(0);
   const [startingBalance, setStartingBalance] = useState(+props.userDelegate.credit_balance);
@@ -106,7 +111,7 @@ function ElectionPage(props: {process: Process, election: Election, userDelegate
   const notRatProposal = (proposal: Proposal, index: number, array: Proposal[]) => {
    return index !== ratProposal;
   };
-
+  
   const submitVotes = (userDelegate: Delegate) => {
     const postData = new Array<any>();
     proposals.forEach(proposal => postData.push({
@@ -173,12 +178,33 @@ function ElectionPage(props: {process: Process, election: Election, userDelegate
     const fileData = new Blob([excelBuffer], {type: fileType});
     FileSaver.saveAs(fileData, 'rxc-voice-results' + fileExtension);
   };
-
+  console.log(transfer)
   if (loading) {
     return (
       <h2>loading...</h2>
     );
-  } else if (moment() < moment(props.election.start_date)) {
+  }
+  if (ratification===true && moment() > moment(props.election.end_date)) {
+    return (
+      <div>
+        
+        {resultData ? (
+             <Redirect to={{
+                pathname:"/chart", 
+                state: {
+                  result: resultData,
+                  name: props.process.title,
+                  transfer: transfer,
+                  startingBalance: startingBalance
+                }
+             }} />
+         
+        ) : null}
+          
+      </div>
+    );
+  } 
+   else if (moment() < moment(props.election.start_date)) {
     return (
       <div className="voting-page">
         <h1>Election</h1>
@@ -195,9 +221,21 @@ function ElectionPage(props: {process: Process, election: Election, userDelegate
         <button onClick={downloadXLSX} id="download" className="submit-button">
           Download spreadsheet
         </button>
+        
         {resultData ? (
+          <div>
           <ProposalResults resultData={resultData} />
+          <Link to={{
+              pathname: "/chart",
+              state: {
+                result: resultData,
+                name: props.process.title
+              }
+             }} ><button>Chart</button></Link>
+           
+          </div>
         ) : null}
+          
       </div>
     );
   } else if (alreadyVoted && !changingVotes) {
@@ -307,3 +345,4 @@ function ElectionPage(props: {process: Process, election: Election, userDelegate
 }
 
 export default ElectionPage;
+

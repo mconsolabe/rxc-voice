@@ -60,9 +60,21 @@ function ProcessCard(props: any) {
     setHidden(!hidden);
   }
 
+  function chartRender() {
+    if(moment() > moment(props.process.end_date))
+      {
+        return true;
+      }
+      return false;
+  }
+  
   return (
+  
     <li className="process-card" key={props.process.id}>
-      {!hidden ? <Card 
+      
+      {!hidden ?(
+      
+      <Card 
       sx={{ maxWidth: 345 }}
       style={{
         color: "yellow",
@@ -116,84 +128,139 @@ function ProcessCard(props: any) {
         />
         <p>{
         <CardContent>
-          <Typography 
-            variant="body2" 
-            color="text.secondary"
-            style={{
-              color: "yellow",
-              fontFamily: "suisse_intlbook_italic",
-            }}
-          >
-            
-          </Typography>
-          <CardActions>
-            <IconButton 
-              aria-label="add to favorites"
+            <Typography
+              variant="body2"
+              color="text.secondary"
               style={{
-                color: "yellow"
-              }}
-              onClick={handleDeleteClick}
-            >
-              <DeleteIcon />
-            </IconButton>
-            <IconButton 
-              aria-label="add to favorites"
-              style={{
-                color: "yellow"
-              }}
-              onClick={() => {
-                window.location.href="/chart";
+                color: "yellow",
+                fontFamily: "suisse_intlbook_italic",
               }}
             >
-              <BarChartIcon />
-            </IconButton>
-            <ExpandMore
-            expand={expanded}
-            onClick={handleExpandClick}
-            aria-expanded={expanded}
-            aria-label="show more"
-            style={{
-              color: "yellow"
-            }}
-            >
-              <ExpandMoreIcon />
-            </ExpandMore>
-            <Link
-              to={currentStage ? (
-                `/${props.process.id}/${slugify(props.process.title)}/${currentStage.position}/${slugify(currentStage.title)}`
-              ) : (
-                `/${props.process.id}/${slugify(props.process.title)}}`
-              )}
-            >
-              <IconButton 
+
+            </Typography>
+
+            <CardActions>
+              <IconButton
                 aria-label="add to favorites"
                 style={{
                   color: "yellow"
                 }}
+                onClick={handleDeleteClick}
               >
-                <HowToVoteIcon />
+                <DeleteIcon />
               </IconButton>
-            </Link>
-          </CardActions>
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography paragraph
-            sx={{ maxWidth: 345 }}
-            style={{
-              color: "yellow",
-              fontFamily: "suisse_intlbook_italic",
-            }}
-          >
-            {props.process.description}
-          </Typography>
-        </CardContent>
-        </Collapse>
+
+              {currentStage && chartRender() ? 
+                (
+                  <Link
+                    to={{
+                      pathname: `/${props.process.id}/${slugify(props.process.title)}/${0}/${slugify(currentStage.title)}`,
+                      state: {
+                        ratification: true,
+                        currentStage: currentStage
+                      }
+                    }}
+                  >
+                  <IconButton
+                    aria-label="add to favorites"
+                    style={{
+                      color: "yellow"
+                    }}
+      
+                  >   
+                  <BarChartIcon />
+                  </IconButton>
+                  </Link>
+                )
+                :
+                (
+                  <Link to={{
+                    pathname: "/chart",
+                    state:{
+                      result:undefined,
+                      name:undefined
+                    }
+                  }}>
+                    <IconButton
+                    aria-label="add to favorites"
+                    style={{
+                      color: "yellow"
+                    }}
+      
+                  >  
+                  
+                  <BarChartIcon />
+                  </IconButton>
+                  
+                  </Link>
+                )}
+
+                 <ExpandMore
+                  expand={expanded}
+                  onClick={handleExpandClick}
+                  aria-expanded={expanded}
+                  aria-label="show more"
+                  style={{
+                    color: "yellow"
+                  }}
+                >
+                  <ExpandMoreIcon />
+                </ExpandMore>
+                {currentStage?(  
+       
+                  <Link
+                  to={{
+                    pathname: `/${props.process.id}/${slugify(props.process.title)}/${currentStage.position}/${slugify(currentStage.title)}`,
+                    state:{
+                      ratification: false
+                    }
+                  }
+                } 
+                >
+                  <IconButton
+                    aria-label="add to favorites"
+                    style={{
+                      color: "yellow"
+                    }}
+                  >
+                    <HowToVoteIcon />
+                  </IconButton>
+                </Link>
+                 ) : (
+                  <Link to={ `/${props.process.id}/${slugify(props.process.title)}}`}>
+                    <IconButton
+                    aria-label="add to favorites"
+                    style={{
+                      color: "yellow"
+                    }}
+                  >
+                    <HowToVoteIcon />
+                  </IconButton>
+                  </Link>
+                )
+              }
+              </CardActions>
+          <Collapse in={expanded} timeout="auto" unmountOnExit>
+              <CardContent>
+                <Typography paragraph
+                  sx={{ maxWidth: 345 }}
+                  style={{
+                    color: "yellow",
+                    fontFamily: "suisse_intlbook_italic",
+                  }}
+                >
+                  {props.process.description}
+                </Typography>
+              </CardContent>
+            </Collapse>
         </CardContent>
         
         }
-        </p>
-      </Card> : null}
+      </p>
+      </Card> ):null}
+      
     </li>
+  
   );
 }
 
@@ -231,3 +298,4 @@ function nextCall() {
     }
   }
 }
+
