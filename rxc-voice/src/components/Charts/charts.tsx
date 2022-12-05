@@ -3,7 +3,7 @@ import { ActionContext } from "../../hooks";
 import { BgColor } from "../../models/BgColor";
 import {Container, Row, Col, Button} from "react-bootstrap"
 import "bootstrap/dist/css/bootstrap.min.css";
-import {Chart, registerables} from "chart.js/auto"
+import Chart from "chart.js/auto"
 import { Doughnut, Bar, Line } from "react-chartjs-2"
 import { ArcElement, CategoryScale, LinearScale} from 'chart.js'
 import Header from '../../components/Header';
@@ -17,7 +17,7 @@ import { TitleSharp } from "@material-ui/icons";
 Chart.register(ArcElement);
 Chart.register(CategoryScale);
 Chart.register(LinearScale);
-Chart.register(...registerables)
+//Chart.register(...registerables)"
 
 function DoughnutChart(props: any){   
     type LocationState = { result: ResultData, name: String, transfer: Transfer[], startingBalance: number };

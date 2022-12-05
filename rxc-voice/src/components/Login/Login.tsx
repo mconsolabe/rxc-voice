@@ -7,8 +7,19 @@ import { useAlert } from 'react-alert'
 import { Link } from "react-router-dom";
 import { Domain } from "../../utils";
 import logo from "../../assets/icons/rxc-voice-beta-logo.png";
-
+import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
 import "./Login.scss";
+import styled from "styled-components";
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import { Button } from "@material-ui/core";
+import {
+    createTheme,
+    createStyles,
+    withStyles,
+    makeStyles,
+    Theme,
+  } from '@material-ui/core/styles';
+
 
 function Login() {
   const location = useLocation();
@@ -19,10 +30,60 @@ function Login() {
   const [unverifiedLogin, setUnverifiedLogin] = useState(false);
   const { setColor, setUserData } = useContext(ActionContext);
 
+
+
+  const BootstrapButton = withStyles({
+    root: {
+      boxShadow: 'none',
+      textTransform: 'none',
+      fontSize: 16,
+      padding: '6px 12px',
+      border: '1px solid',
+      lineHeight: 1.5,
+      backgroundColor: '#000f',
+      borderColor: '#000f',
+      fontFamily: [
+        'Segoe UI',
+        'BlinkMacSystemFont',
+        '"Segoe UI"',
+        'Roboto',
+        '"Helvetica Neue"',
+        'Arial',
+        'sans-serif',
+        '"Apple Color Emoji"',
+        '"Segoe UI Emoji"',
+        '"Segoe UI Symbol"',
+      ].join(','),
+      '&:hover': {
+        backgroundColor: '#000f',
+        borderColor: '#000f',
+        boxShadow: 'none',
+      },
+      '&:active': {
+        boxShadow: 'none',
+        backgroundColor: '#ffeb3b',
+        borderColor: '#ffeb3b',
+      },
+      '&:focus': {
+        boxShadow: '0 0 0 0.2rem rgba(0,0,0,.5)',
+      },
+    },
+  })(Button);
+
+  const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    margin: {
+      margin: theme.spacing(1),
+    },
+  }),
+);
+  
+  const classes = useStyles();
+
   const alert = useAlert()
 
   useEffect(() => {
-    setColor(BgColor.White)
+    setColor(BgColor.Yellow)
 
    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -59,6 +120,7 @@ function Login() {
 
   if (unverifiedLogin) {
     return (
+      <div className="main-container">
       <div className="login-unverified">
         <h2>Unverified account</h2>
         <p>Sorry, but you can't access the site until you verify your account.</p>
@@ -76,17 +138,28 @@ function Login() {
         </ul>
         <p>Please note that RadicalxChange Foundation will not allow users to hold multiple accounts on RxC Voice.</p>
       </div>
+      </div>
     );
   }
   return (
+    <div className="main-container">
+    <MainContainer>
     <form className="login" onSubmit={login}>
-      <img src={logo} className="App-logo" alt="logo" />
+      <img src={logo} className="App-logo" alt="logo"style={{
+              
+              marginBottom: -30,
+              marginLeft: 45, 
+              
+            }}            />
+      <InputContainer>
       <input
+        
         type="text"
-        placeholder="Email"
+        placeholder="Username"
         className="login-input"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+        
       />
 
       <input
@@ -95,22 +168,155 @@ function Login() {
         className="login-input"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        style={{
+        
+          marginTop: 25 ,
+          
+          
+          
+        }}           
       />
+</InputContainer>
+<HorizontalRule />
+<ButtonContainer>
+     
+           <Button   type="submit" startIcon={<VpnKeyIcon />} color = "inherit" variant="contained"
+             style={{
+              color: "yellow",
+              backgroundColor: "black",
+              fontFamily: "suisse_intlbook_italic",
+              marginTop: 25 ,
+              height: 40,
+              
+              
+            }}           
+            >
+              Sign In
+            </Button>
+      
 
-      <button
-        type="submit"
-        className="login-button"
-        >
-        sign in
-      </button>
+  
+      </ButtonContainer>
       <Link
         to={`/forgot-password`}
         className="forgot-password"
       >
-        Forgot password?
+        <Button  type="submit" color = "inherit" variant="contained"
+             style={{
+              color: "yellow",
+              backgroundColor: "black",
+              fontFamily: "suisse_intlbook_italic",
+              marginTop: 1 ,
+              marginRight:60,
+              height: 40,
+              
+            }}           
+            >
+              Forgot Password?
+            </Button>
       </Link>
     </form>
+    </MainContainer>
+    </div>
   );
 }
+
+
+const MainContainer = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 70vh;
+  width: 30vw;
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  backdrop-filter: blur(8.5px);
+  -webkit-backdrop-filter: blur(8.5px);
+  border-radius: 10px;
+ 
+  text-transform: uppercase;
+  letter-spacing: 0.4rem;
+  @media only screen and (max-width: 320px) {
+    width: 80vw;
+    height: 90vh;
+    hr {
+      margin-bottom: 0.3rem;
+    }
+    h4 {
+      font-size: small;
+    }
+  }
+  @media only screen and (min-width: 360px) {
+    width: 80vw;
+    height: 90vh;
+    h4 {
+      font-size: small;
+    }
+  }
+  @media only screen and (min-width: 411px) {
+    width: 80vw;
+    height: 90vh;
+  }
+  @media only screen and (min-width: 768px) {
+    width: 80vw;
+    height: 80vh;
+  }
+  @media only screen and (min-width: 1024px) {
+    width: 70vw;
+    height: 50vh;
+  }
+  @media only screen and (min-width: 1280px) {
+    width: 30vw;
+    height: 70vh;
+  }
+`;
+
+const WelcomeText = styled.h2`
+  margin: 3rem 0 2rem 0;
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  
+  width: 100%;
+`;
+
+const ButtonContainer = styled.div`
+  margin: 1rem 0 2rem 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const LoginWith = styled.h5`
+  cursor: pointer;
+`;
+
+const HorizontalRule = styled.hr`
+  width: 100%;
+  height: 0.3rem;
+  border-radius: 0.8rem;
+  border: none;
+  background: linear-gradient(to right, #FFBF00 0%, #000 79%);
+  background-color: #000;
+  margin: 1.5rem 0 1rem 0;
+  backdrop-filter: blur(25px);
+`;
+
+const IconsContainer = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  margin: 2rem 0 3rem 0;
+  width: 80%;
+`;
+
+const ForgotPassword = styled.h4`
+  cursor: pointer;
+`;
+
 
 export default Login;

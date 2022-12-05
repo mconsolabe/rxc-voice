@@ -8,43 +8,145 @@ import convo_img from "../../assets/speech-bubbles.png";
 import handshake_img from "../../assets/handshake.png";
 import { ActionContext } from "../../hooks";
 import { BgColor } from "../../models/BgColor";
-
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import "./LandingPage.scss";
+import { Button } from "@material-ui/core";
+import {
+    createTheme,
+    createStyles,
+    withStyles,
+    makeStyles,
+    Theme,
+  } from '@material-ui/core/styles';
 
-function LandingPage() {
-  const { setColor } = useContext(ActionContext);
+  import { green, grey , yellow } from '@material-ui/core/colors';
+  import Icon from '@material-ui/core/Icon';
+  function LandingPage() {
+    const { setColor } = useContext(ActionContext);
+  
+    useEffect(() => {
+      setColor(BgColor.Yellow);
+  
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+  
 
-  useEffect(() => {
-    setColor(BgColor.White);
+    const BootstrapButton = withStyles({
+      root: {
+        boxShadow: 'none',
+        textTransform: 'none',
+        fontSize: 16,
+        padding: '6px 12px',
+        border: '1px solid',
+        lineHeight: 1.5,
+        backgroundColor: '#000f',
+        borderColor: '#000f',
+        fontFamily: [
+          'Segoe UI',
+          'BlinkMacSystemFont',
+          '"Segoe UI"',
+          'Roboto',
+          '"Helvetica Neue"',
+          'Arial',
+          'sans-serif',
+          '"Apple Color Emoji"',
+          '"Segoe UI Emoji"',
+          '"Segoe UI Symbol"',
+        ].join(','),
+        '&:hover': {
+          backgroundColor: '#000f',
+          borderColor: '#000f',
+          boxShadow: 'none',
+        },
+        '&:active': {
+          boxShadow: 'none',
+          backgroundColor: '#ffeb3b',
+          borderColor: '#ffeb3b',
+        },
+        '&:focus': {
+          boxShadow: '0 0 0 0.2rem rgba(0,0,0,.5)',
+        },
+      },
+    })(Button);
+  
+  
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  
+  const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+      margin: {
+        margin: theme.spacing(1),
+      },
+    }),
+  );
+  
+  const theme = createTheme({
+    palette: {
+      primary: yellow,
+    },
+  });
 
+  const classes = useStyles();
+
+
+
+  
   return (
+    
     <div className="landing-page">
       <div id="top-panel">
-        <div className="lp-header">
+        
           <Link
           to={`/login`}
           className="nav-link"
           >
-          Sign in
+             <Button  startIcon={<VpnKeyIcon />} color = "inherit" variant="contained"
+             style={{
+              color: "yellow",
+              backgroundColor: "black",
+              fontFamily: "suisse_intlbook_italic",
+              marginTop: 15 ,
+              height: 40,
+              
+            }}           
+            >
+              Sign In
+              </Button>
+       
           </Link>
-        </div>
+       
         <div className="top-panel_content">
           <img src={logo} className="App-logo" alt="logo" />
           <p className="subtitle">A way for groups to evolve and make decisions democratically</p>
           <Link
           to={`/verify`}
           >
-            <button type="button">
-                Get Started
-            </button>
+            <Button  color = "inherit" variant="contained"
+             style={{
+              color: "yellow",
+              backgroundColor: "black",
+              fontFamily: "suisse_intlbook_italic",
+              marginTop: 25 ,
+              height: 40,
+              marginRight: 15,
+            }}           
+            >
+              Get Started
+              </Button>
           </Link>
           <a href="#info">
-            <button type="button">
-                Learn More
-            </button>
+          <Button  color = "inherit" variant="contained"
+             style={{
+              color: "yellow",
+              backgroundColor: "black",
+              fontFamily: "suisse_intlbook_italic",
+              marginTop: 25 ,
+              height: 40,
+              marginRight: 25,
+            }}           
+            >
+              Learn More
+              </Button>
           </a>
         </div>
         <div className="scroll-arrow">
@@ -52,6 +154,9 @@ function LandingPage() {
           <img src={downArrow} alt="down arrow" />
         </div>
       </div>
+
+
+      
       <div id="info">
         <section className="panel">
           <div className="subpanel_image">

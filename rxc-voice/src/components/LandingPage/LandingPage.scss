@@ -5,6 +5,9 @@
   width: 100vw;
 }
 
+
+
+
 #top-panel {
   height: 100vh;
   background: var(--yellowColor);
@@ -16,7 +19,7 @@
 .lp-header {
   padding: 4.5vmin;
   text-align: right;
-  margin-right: 3vw;
+
 }
 
 .top-panel_content {
@@ -55,6 +58,7 @@
   align-items: center;
   justify-content: center;
   margin: auto 0;
+  
 }
 
 .subpanel_image > img {

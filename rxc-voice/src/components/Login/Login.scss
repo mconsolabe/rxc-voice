@@ -11,6 +11,22 @@
   text-align: center;
 }
 
+
+
+
+.main-container {
+
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-family: "Raleway", sans-serif;
+}
+
+
+
+
 .login {
   padding: 4.5vmin;
 
@@ -26,16 +42,17 @@
     display: block;
     text-align: center;
     margin: 8vmin auto 0 auto;
-    width: 80%;
+    width: 100%;
     border: none;
     outline: none;
-    border-bottom: 1px solid black;
-    font-size: 1rem;
-
+    border: 1px solid BLACK;
+  
+    border-radius: 10px;
+   
   }
 
   .login-button {
-    display: block;
+    
     text-align: center;
     margin: 10vmin auto 5vmin auto;
     padding: 1vmin 4vmin;
@@ -67,10 +84,11 @@
   }
 
   .login {
-    padding: 10vw 30vw;
+    padding: 5vw 30vw;
 
     .login-logo {
       width: 39.31vw;
+      
     }
 
     .login-input {
